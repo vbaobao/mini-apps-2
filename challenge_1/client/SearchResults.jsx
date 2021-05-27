@@ -1,7 +1,7 @@
 import React from 'react';
 
 function SearchResults (props) {
-  return (<p>Search Results</p>);
+  return (<p>{JSON.stringify(props.data)}</p>);
 }
 
 export default SearchResults;
