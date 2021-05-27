@@ -1,0 +1,120 @@
+@gray: rgb(82, 75, 75);
+@purple: rgb(130, 114, 158);
+@cornsilk: cornsilk;
+@date: rgb(241, 120, 120);
+@lang: rgb(255, 220, 107);
+@category1: rgb(116, 188, 255);
+@category2: rgb(176, 237, 255);
+@granularity: rgb(136, 255, 165);
+
+body {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  color: @gray;
+}
+
+h1, h2 {
+  margin: 1rem auto;
+  text-align: center;
+}
+
+form {
+  display: flex;
+  justify-content: center;
+  margin: auto;
+}
+
+input, label {
+  margin: 0.25rem;
+}
+
+input.bar {
+  padding: 1rem;
+  border: solid 1px @purple;
+  border-radius: 15px;
+  width: 50vw;
+  height: 1rem;
+  
+  &:focus {
+    outline: none;
+    border-style: dotted;
+  }
+}
+
+input.button {
+  margin: 0.5rem;
+  border: none;
+  border-radius: 10px;
+  width: 100px;
+  transition: all 0.1s ease-in 0.1s;
+
+  &:hover {
+    background-color: @purple;
+    transition: all 0.1s ease-in 0.1s;
+  }
+}
+
+span {
+  border-radius: 7px;
+  padding: 5px;
+}
+
+span.date {
+  background-color: @date;
+}
+
+span.lang {
+  background-color: @lang;
+}
+
+span.category1 {
+  background-color: @category1;
+}
+
+span.category2 {
+  background-color: @category2;
+}
+
+span.granularity {
+  background-color: @granularity;
+}
+
+.results {
+  margin: auto;
+  margin-bottom: 1rem;
+  padding: 5px;
+  width: 95vw;
+  border-bottom: solid 2px @cornsilk;
+}
+
+.results_tags {
+  display: grid;
+  grid-template-columns: auto auto auto auto auto;
+  div {
+    padding: 0.5rem;
+    display: flex;
+  }
+}
+
+p {
+  line-height: 1.5rem;
+}
+
+ul.pagination {
+  width: 100vw;
+  display: flex;
+  justify-content: space-evenly;
+  margin: 0;
+  padding: 15px;
+  padding-bottom: 50px;
+  left: 0;
+  bottom: 0;
+  list-style-type: none;
+  background-color: cornsilk;
+}
+
+li.pagination {
+  display: inline-block;
+  margin: 0.2rem;
+}
