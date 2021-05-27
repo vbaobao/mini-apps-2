@@ -7,15 +7,36 @@ import SearchResults from './SearchResults.jsx';
 
 function App() {
   const [data, setData] = useState([]);
+  const [pages, setPages] = useState(0);
+  const [searchTerm, setSearchTerm] = useState('');
 
-  const handlePageChange = useCallback((e) => {
-    console.log(e.selected);
-  }, []);
-
-  const handleSubmit = useCallback(async (data) => {
+  const handlePageChange = useCallback(async (e) => {
     try {
-      const response = await axios.get('/search', { params: { search: data } });
-      setData(response);
+      const response = await axios.get('/search', {
+        params: {
+          search: searchTerm,
+          page: e.selected + 1,
+          offset: 10,
+        }
+      });
+      setData(response.data.data);
+    } catch (err) {
+      console.error(err);
+    }
+  }, [pages]);
+
+  const handleSubmit = useCallback(async (query) => {
+    try {
+      const response = await axios.get('/search', {
+        params: {
+          search: query,
+          page: 1,
+          offset: 10,
+        }
+      });
+      setSearchTerm(query);
+      setData(response.data.data);
+      setPages(response.data.maxPages);
     } catch (err) {
       console.error(err);
     }
@@ -23,11 +44,11 @@ function App() {
 
   return (
     <div>
-      Test
+      <h1>Search From History</h1>
       <SearchBar handleSubmit={handleSubmit} />
       <SearchResults data={data}/>
       <ReactPaginate
-          pageCount={Math.ceil(data.length/10)}
+          pageCount={pages}
           pageRangeDisplayed={5}
           marginPagesDisplayed={2}
           previousLabel={'<<'}
