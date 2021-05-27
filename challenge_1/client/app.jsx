@@ -20,6 +20,7 @@ function App() {
         }
       });
       setData(response.data.data);
+      window.scrollTo(0, 0);
     } catch (err) {
       console.error(err);
     }
@@ -46,15 +47,17 @@ function App() {
     <div>
       <h1>Search From History</h1>
       <SearchBar handleSubmit={handleSubmit} />
+      <h2>Results</h2>
       <SearchResults data={data}/>
       <ReactPaginate
-          pageCount={pages}
-          pageRangeDisplayed={5}
-          marginPagesDisplayed={2}
-          previousLabel={'<<'}
-          nextLabel={'>>'}
-          onPageChange={handlePageChange}
-        />
+        containerClassName={'pagination'}
+        pageCount={pages}
+        pageRangeDisplayed={5}
+        marginPagesDisplayed={2}
+        previousLabel={'<<'}
+        nextLabel={'>>'}
+        onPageChange={handlePageChange}
+      />
     </div>
   );
 }
