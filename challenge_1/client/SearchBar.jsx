@@ -15,9 +15,14 @@ function SearchBar (props) {
   return (
     <form onSubmit={handleSubmit}>
       <label>
-        <input name='searchValue' type='text' value={val} onChange={handleChange} />
+        <input
+        className="bar"
+          name="searchValue"
+          type="text" value={val}
+          onChange={handleChange}
+          placeholder="Enter search here" />
       </label>
-      <input type="submit" value="search!" />
+      <input className="button" type="submit" value="search!" />
     </form>
   );
 }
