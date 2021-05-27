@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const Event = require('../server/schema.js');
 
 const Search = async (req, res) => {
-  const searchTerm = req.body.query;
+  const searchTerm = req.query.search;
   try {
     const response = await Event.find({ $text: { $search: searchTerm } });
     res.send(response);
