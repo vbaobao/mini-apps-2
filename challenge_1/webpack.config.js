@@ -22,6 +22,14 @@ module.exports = {
             plugins: ["@babel/plugin-transform-runtime"]
           }
         }
+      },
+      {
+        test: /\.less$/i,
+        loader: [
+          "style-loader",
+          "css-loader",
+          "less-loader",
+        ],
       }
     ]
   }  
