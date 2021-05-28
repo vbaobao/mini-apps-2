@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import Form from './Form.jsx';
 import CurrentPrice from './CurrentPrice.jsx';
-import Chart from './Chart.jsx';
+import History from './History.jsx';
 
 function App() {
   const [history, setHistory] = useState([]);
@@ -53,7 +53,7 @@ function App() {
     <div>
       <h1>Title</h1>
       <CurrentPrice data={closingPrice}/>
-      <Chart data={history}/>
+      <History data={history}/>
       <Form changeCurrency={updateCurrency} changeDates={updateDateRange}/>
     </div>
   );
