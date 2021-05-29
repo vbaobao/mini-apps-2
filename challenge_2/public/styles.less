@@ -1,5 +1,79 @@
-html, body {
+@default-font: 'Roboto Mono', monospace;
+
+html {
   margin: 0;
   padding: 0;
-  font-family: 'Roboto Mono', monospace;
+  font-family: @default-font;
+}
+
+body {
+  padding: 2rem 1rem 0.5rem 1rem;
+}
+
+.crypto.container {
+  margin: auto;
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+
+  .closing_price, .last_updated {
+    flex-direction: row;
+  }
+}
+
+.crypto {
+  .name, .price .rate {
+    font-size: 2rem;
+    color: cornflowerblue;
+  }
+
+  .arrow {
+    font-size: 2rem;
+    margin: 0 1rem;
+    color: rgb(165 165 165);
+  }
+
+  .last_updated {
+    font-size: 0.7rem;
+  }
+}
+
+canvas {
+  margin: 2rem 1rem;
+}
+
+.options {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.date_range, .currency_type {
+  margin-bottom: 0.5rem;
+  display: flex;
+  justify-content: center;
+  
+  .date_range_start, .date_range_end, input {
+    margin: 0 0.5rem;
+  }
+
+  input {
+    border: solid 1px rgb(238, 182, 62);
+    border-radius: 5px;
+    background-color: cornsilk;
+    color: rgb(132 92 40);
+
+    &:hover {
+      color: rgb(238, 182, 62);
+      background-color: rgb(255, 227, 167);
+      transition: all ease 0.2s;
+    }
+  }
+}
+
+select {
+  &:focus {
+    outline: none;
+  }
 }
