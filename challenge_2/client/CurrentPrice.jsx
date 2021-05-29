@@ -10,13 +10,13 @@ function CurrentPrice (props) {
     <div className="crypto container">
       <div className="crypto closing_price container">
         <span className="crypto name">1 BTC</span>
-        <span className="crypto arrow">➲</span>
+        <span className="crypto arrow">➔</span>
         <span className="crypto price">
           <span className="crypto rate">{rate}</span> {currencyCode}
         </span>
       </div>
       <div className="crypto last_updated container">
-        <b>Last updated:</b> {lastUpdate}
+        <b><u>Last updated:</u></b>{` ${lastUpdate}`}
       </div>
     </div>
   );
