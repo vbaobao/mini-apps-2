@@ -43,7 +43,6 @@ function App() {
 
   return (
     <div>
-      <h1>Bitcoin Trends</h1>
       <CurrentPrice data={closingPrice} currency={supportedCurrency}/>
       <History data={history}/>
       <Form
