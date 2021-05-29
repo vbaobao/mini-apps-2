@@ -43,7 +43,7 @@ function App() {
 
   return (
     <div>
-      <h1>Title</h1>
+      <h1>Bitcoin Trends</h1>
       <CurrentPrice data={closingPrice} currency={supportedCurrency}/>
       <History data={history}/>
       <Form
