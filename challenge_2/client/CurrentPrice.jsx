@@ -1,18 +1,18 @@
 import React from 'react';
 
 function CurrentPrice (props) {
-  const crypto = props.data?.chartName ? props.data.chartName : '';
-  const rate = props.data?.bpi?.USD.rate ? props.data.bpi.USD.rate : '';
-  const currencyCode = props.data?.bpi?.USD.code ? props.data.bpi.USD.code : '';
+  const rate = props.data?.bpi?.[props.currency]?.rate
+    ? props.data.bpi?.[props.currency].rate: '';
+  const currencyCode = props.data?.bpi?.[props.currency]?.code
+    ? props.data.bpi?.[props.currency]?.code : '';
   const lastUpdate = props.data?.time?.updated ? props.data.time.updated : '';
   return (
     <div>
       <div>
-        <span className="crypto_name">
-        {crypto}
-        </span>
-        <span className="crypto_price">
-          <span className="crypto_rate">{rate}</span> {currencyCode}
+        <span className="crypto name">1 BTC</span>
+        <span className="crypto arrow">➲</span>
+        <span className="crypto price">
+          <span className="crypto rate">{rate}</span> {currencyCode}
         </span>
       </div>
       <div>
