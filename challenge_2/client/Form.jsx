@@ -3,30 +3,34 @@ import MonthsDropdown from './MonthsDropdown.jsx';
 import YearsDropdown from './YearsDropdown.jsx';
 
 function Form (props) {
-  const [start, setStart] = useState({ month: '', year: '' });
-  const [end, setEnd] = useState({ month: '', year: '' });
+  const [formStart, setFormStart] = useState({ month: '', year: '' });
+  const [formEnd, setFormEnd] = useState({ month: '', year: '' });
 
   const handleChange = (e) => {
     props.changeCurrency(e.target.value);
   };
 
   const handleSubmit = (e) => {
-    console.log(start, end);
-    props.changeDates(start, end);
+    console.log({...formStart});
+    console.log({...formEnd});
+    props.changeStartDate({...formStart});
+    props.changeEndDate({...formEnd});
     e.preventDefault();
   };
 
   const handleDateChange = (e) => {
     const info = e.target.name.split(' ');
     if (info[0] === 'start') {
-      const temp = start;
+      const temp = formStart;
       temp[info[1]] = e.target.value;
-      setStart(temp);
+      setFormStart(temp);
     } else {
-      const temp = end;
+      const temp = formEnd;
       temp[info[1]] = e.target.value;
-      setEnd(temp);
+      setFormEnd(temp);
     }
+    console.log('Start update: ', formStart);
+    console.log('End update: ', formEnd);
   }
 
   return (
@@ -35,9 +39,17 @@ function Form (props) {
         <label>
           Currency:
           <select onChange={handleChange}>
+            <option value=""></option>
+            <option value="CNY">CNY</option>
+            <option value="CAD">CAD</option>
+            <option value="HKD">HKD</option>
+            <option value="JPY">JPY</option>
+            <option value="KRW">KRW</option>
+            <option value="RUB">RUB</option>
+            <option value="THB">THB</option>
+            <option value="TWD">TWD</option>
+            <option value="UAH">UAH</option>
             <option value="USD">USD</option>
-            <option value="GPB">GPB</option>
-            <option value="EUR">EUR</option>
           </select>
         </label>
       </form>
