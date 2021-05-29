@@ -7,15 +7,15 @@ function CurrentPrice (props) {
     ? props.data.bpi?.[props.currency]?.code : '';
   const lastUpdate = props.data?.time?.updated ? props.data.time.updated : '';
   return (
-    <div>
-      <div>
+    <div className="crypto container">
+      <div className="crypto closing_price container">
         <span className="crypto name">1 BTC</span>
         <span className="crypto arrow">➲</span>
         <span className="crypto price">
           <span className="crypto rate">{rate}</span> {currencyCode}
         </span>
       </div>
-      <div>
+      <div className="crypto last_updated container">
         <b>Last updated:</b> {lastUpdate}
       </div>
     </div>
