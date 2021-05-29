@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import Form from './Form.jsx';
@@ -10,21 +10,13 @@ function App() {
   const [closingPrice, setClosingPrice] = useState([]);
   const [start, setStart] = useState({ year: '', month: ''});
   const [end, setEnd] = useState({ year: '', month: '' });
-  const [supportedCurrency, setSupportedCurrency] = useState('');
+  const [supportedCurrency, setSupportedCurrency] = useState('USD');
 
   useEffect(() => {
     getCurrentPrice();
     getHistoricalPrices();
+    console.log('Getting new data ...');
   }, [start, end, supportedCurrency]);
-
-  const updateCurrency = useCallback((newCurrency) => {
-    setSupportedCurrency(newCurrency);
-  });
-
-  const updateDateRange = useCallback(async (newStart, newEnd) => {
-    setStart(newStart);
-    setEnd(newEnd);
-  });
 
   const getCurrentPrice = () => {
     const api = supportedCurrency
@@ -52,9 +44,12 @@ function App() {
   return (
     <div>
       <h1>Title</h1>
-      <CurrentPrice data={closingPrice}/>
+      <CurrentPrice data={closingPrice} currency={supportedCurrency}/>
       <History data={history}/>
-      <Form changeCurrency={updateCurrency} changeDates={updateDateRange}/>
+      <Form
+        changeCurrency={setSupportedCurrency}
+        changeStartDate={setStart}
+        changeEndDate={setEnd}/>
     </div>
   );
 }
