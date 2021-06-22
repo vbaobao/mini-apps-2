@@ -9,6 +9,9 @@
       "@babel/preset-react"
     ]
   },
+  "jest": {
+    "testEnvironment": "jsdom"
+  },
   "scripts": {
     "test": "jest",
     "start": "nodemon server.js",
