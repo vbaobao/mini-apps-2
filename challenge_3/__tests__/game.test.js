@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import sinon from 'sinon';
 import Enzyme, { mount } from 'enzyme';
 import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
@@ -13,7 +12,7 @@ describe('Name', () => {
     expect(1).toBe(1);
   });
 
-  test('simulates click events', () => {
+  test('Simulate selecting a pin', () => {
     const wrapper = mount(<Bowling />);
     expect(JSON.stringify(wrapper.find('Scoreboard').prop('scores'))).toBe(JSON.stringify([]));
     wrapper.find('button[value=1]').simulate('click');
