@@ -94,13 +94,7 @@ function Bowling (props) {
       toggleFrame();
     }
 
-    if (framePlaceholder >= maxFrames) {
-      console.log('Frame placeholder: ', framePlaceholder);
-      console.log('Game is over!');
-      setGameState(false);
-    } else {
-      console.log('Frame placeholder: ', framePlaceholder);
-    }
+    if (framePlaceholder >= maxFrames) setGameState(false);
   };
 
   return (
