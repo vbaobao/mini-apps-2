@@ -28,6 +28,7 @@ function Bowling (props) {
     const updatedScores = [...scores];
     const newOwedOneRound = [];
     const newOwedTwoRounds = [];
+    let bonusPlaceholder = bonus;
     let strike = false;
 
     for (const round of owedOneRound) {
@@ -53,8 +54,16 @@ function Bowling (props) {
       });
       strike = true;
       newOwedTwoRounds.push(updatedScores.length - 1);
-      if (updatedScores.length === 9) setBonus(true);
+      if (updatedScores.length >= 10) {
+        setBonus(true);
+        bonusPlaceholder = true;
+      };
     } else if (isFirstFrame) {
+      updatedScores.push({
+        first: pin,
+        total: currentTotal + Number(pin),
+      });
+    } else if (isFirstFrame && bonus) {
       updatedScores.push({
         first: pin,
         total: currentTotal + Number(pin),
@@ -73,7 +82,7 @@ function Bowling (props) {
     setOwedTwoRounds(newOwedTwoRounds);
 
     let framePlaceholder = currentFrame;
-    if (bonus) {
+    if (bonusPlaceholder) {
       setCurrentFrame(currentFrame + 0.75);
       framePlaceholder += 0.75;
     } else if (strike) {
@@ -86,8 +95,11 @@ function Bowling (props) {
     }
 
     if (framePlaceholder >= maxFrames) {
+      console.log('Frame placeholder: ', framePlaceholder);
       console.log('Game is over!');
       setGameState(false);
+    } else {
+      console.log('Frame placeholder: ', framePlaceholder);
     }
   };
 
