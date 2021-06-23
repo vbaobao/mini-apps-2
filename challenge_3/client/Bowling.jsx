@@ -4,25 +4,46 @@ import Scoreboard from './Scoreboard.jsx';
 
 function Bowling (props) {
   const [scores, setScores] = useState([]);
-  const [rolls, setRolls] = useState([]);
+  const [owedOneRound, setOwedOneRound] = useState([]);
+  const [owedTwoRounds, setOwedTwoRounds] = useState([]);
   const [isFirstFrame, setIsFirstFrame] = useState(true);
   const [currentFrame, setCurrentFrame] = useState(1);
   const [gameState, setGameState] = useState(true);
-  const maxFrames = 20;
+  const [bonus, setBonus] = useState(false);
+  const [maxFrames, setMaxFrames] = useState(20);
 
   const toggleFrame = () => setIsFirstFrame(!isFirstFrame);
 
   const resetGame = () => {
     setScores([]);
+    setOwedOneRound([]);
+    setOwedTwoRounds([]);
     setIsFirstFrame(true);
     setCurrentFrame(1);
+    setBonus(false);
+    setMaxFrames(20);
     setGameState(true);
   };
 
   const selectPin = (pin) => {
-    setRolls([...rolls, Number(pin)]);
-
     const updatedScores = [...scores];
+    const newOwedOneRound = [];
+    const newOwedTwoRounds = [];
+    let strike = false;
+
+    for (const round of owedOneRound) {
+      for (let i = round; i < updatedScores.length; i++) {
+        updatedScores[i].total += Number(pin);
+      }
+    }
+
+    for (const round of owedTwoRounds) {
+      newOwedOneRound.push(round);
+      for (let i = round; i < updatedScores.length; i++) {
+        updatedScores[i].total += Number(pin);
+      }
+    }
+
     let currentTotal = updatedScores[updatedScores.length - 1]?.total || 0;
 
     if (isFirstFrame && Number(pin) === 10) {
@@ -31,29 +52,45 @@ function Bowling (props) {
         second: ' ',
         total: currentTotal + 10,
       });
+      strike = true;
+      newOwedTwoRounds.push(updatedScores.length - 1);
+      if (updatedScores.length === 10) {
+        setBonus(true);
+        setMaxFrames(22);
+      };
     } else if (isFirstFrame) {
       updatedScores.push({
         first: pin,
         total: currentTotal + Number(pin),
       });
-      toggleFrame();
     } else if (!isFirstFrame && Number(updatedScores[updatedScores.length - 1].first) + Number(pin) === 10) {
       updatedScores[updatedScores.length - 1].second = '/';
       updatedScores[updatedScores.length - 1].total = currentTotal + Number(pin);
-      toggleFrame();
+      newOwedOneRound.push(updatedScores.length - 1);
     } else {
       updatedScores[updatedScores.length - 1].second = pin;
       updatedScores[updatedScores.length - 1].total = currentTotal + Number(pin);
-      toggleFrame();
     }
 
     setScores(updatedScores);
+    setOwedOneRound(newOwedOneRound);
+    setOwedTwoRounds(newOwedTwoRounds);
 
-    if (currentFrame === maxFrames) {
-      console.log('Game is over!');
-      setGameState(false);
+    if (strike && bonus) {
+      console.log('Strike and bonus')
+      setCurrentFrame(currentFrame + 1);
+    } else if (strike) {
+      setCurrentFrame(currentFrame + 2);
     } else {
       setCurrentFrame(currentFrame + 1);
+      toggleFrame();
+    }
+
+    console.log('Current frame: ', currentFrame);
+
+    if (currentFrame >= maxFrames) {
+      console.log('Game is over!');
+      setGameState(false);
     }
   };
 
@@ -66,7 +103,7 @@ function Bowling (props) {
         currentRound={scores[scores.length - 1]}
         gameState={gameState}
       />
-      <Scoreboard scores={scores} isFirstFrame={isFirstFrame} />
+      <Scoreboard scores={scores} isFirstFrame={isFirstFrame} bonus={bonus}/>
       <button onClick={resetGame}>Restart</button>
     </div>
   );
