@@ -58,12 +58,7 @@ function Bowling (props) {
         setBonus(true);
         bonusPlaceholder = true;
       };
-    } else if (isFirstFrame) {
-      updatedScores.push({
-        first: pin,
-        total: currentTotal + Number(pin),
-      });
-    } else if (isFirstFrame && bonus) {
+    } else if (isFirstFrame || bonus) {
       updatedScores.push({
         first: pin,
         total: currentTotal + Number(pin),
@@ -107,7 +102,7 @@ function Bowling (props) {
         gameState={gameState}
       />
       <Scoreboard scores={scores} isFirstFrame={isFirstFrame} bonus={bonus}/>
-      <button onClick={resetGame}>Restart</button>
+      <button onClick={resetGame} value="Restart">Restart</button>
     </div>
   );
 }
