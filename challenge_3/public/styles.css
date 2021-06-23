@@ -1,0 +1,38 @@
+h1 {
+  color: cornflowerblue;
+}
+
+.pins-wrapper {
+  display: grid;
+  grid-template-columns: 50px 50px 50px;
+  margin-bottom: 25px;
+}
+
+.score-wrapper {
+  display: flex;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.score-container {
+  display: flex;
+  flex-direction: column;
+  margin: 2px;
+  width: 40px;
+  height: 40px;
+  border: solid 1px black;
+}
+
+.frame-container {
+  display: flex;
+}
+
+.frame {
+  border: solid 1px gray;
+  width: 20px;
+  height: 20px;
+}
+
+.inactive {
+  color: gray;
+}
