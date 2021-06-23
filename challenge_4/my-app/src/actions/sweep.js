@@ -1,7 +1,9 @@
-const sweep = () => dispatch => {
+import { selectCell } from './minesweeper';
+
+const sweep = (cell, board, revealed, n) => dispatch => {
   dispatch({
     type: 'SWEEP',
-    payload: ['swept']
+    payload: selectCell(cell, board, revealed, n)
   });
 };
 
