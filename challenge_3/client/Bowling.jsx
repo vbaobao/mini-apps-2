@@ -4,6 +4,7 @@ import Scoreboard from './Scoreboard.jsx';
 
 function Bowling (props) {
   const [scores, setScores] = useState([]);
+  const [rolls, setRolls] = useState([]);
   const [isFirstFrame, setIsFirstFrame] = useState(true);
   const [currentFrame, setCurrentFrame] = useState(1);
   const [gameState, setGameState] = useState(true);
@@ -19,19 +20,31 @@ function Bowling (props) {
   };
 
   const selectPin = (pin) => {
-    const updatedScores = [...scores];
-    const lastRound = updatedScores.length - 1;
-    let prevRound = isFirstFrame && updatedScores.length > 0 ? updatedScores.length - 1 : null;
+    setRolls([...rolls, Number(pin)]);
 
-    if (isFirstFrame) {
+    const updatedScores = [...scores];
+    let currentTotal = updatedScores[updatedScores.length - 1]?.total || 0;
+
+    if (isFirstFrame && Number(pin) === 10) {
       updatedScores.push({
-        first: Number(pin),
-        total: prevRound !== null ? updatedScores[prevRound].total + Number(pin) : Number(pin),
+        first: 'X',
+        second: ' ',
+        total: currentTotal + 10,
       });
+    } else if (isFirstFrame) {
+      updatedScores.push({
+        first: pin,
+        total: currentTotal + Number(pin),
+      });
+      toggleFrame();
+    } else if (!isFirstFrame && Number(updatedScores[updatedScores.length - 1].first) + Number(pin) === 10) {
+      updatedScores[updatedScores.length - 1].second = '/';
+      updatedScores[updatedScores.length - 1].total = currentTotal + Number(pin);
+      toggleFrame();
     } else {
-      const lastRound = updatedScores.length - 1;
-      updatedScores[lastRound].second = Number(pin);
-      updatedScores[lastRound].total = updatedScores[lastRound].total + Number(pin);
+      updatedScores[updatedScores.length - 1].second = pin;
+      updatedScores[updatedScores.length - 1].total = currentTotal + Number(pin);
+      toggleFrame();
     }
 
     setScores(updatedScores);
@@ -41,7 +54,6 @@ function Bowling (props) {
       setGameState(false);
     } else {
       setCurrentFrame(currentFrame + 1);
-      toggleFrame();
     }
   };
 
