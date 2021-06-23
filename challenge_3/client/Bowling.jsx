@@ -7,10 +7,10 @@ function Bowling (props) {
   const [owedOneRound, setOwedOneRound] = useState([]);
   const [owedTwoRounds, setOwedTwoRounds] = useState([]);
   const [isFirstFrame, setIsFirstFrame] = useState(true);
-  const [currentFrame, setCurrentFrame] = useState(1);
+  const [currentFrame, setCurrentFrame] = useState(0);
   const [gameState, setGameState] = useState(true);
   const [bonus, setBonus] = useState(false);
-  const [maxFrames, setMaxFrames] = useState(20);
+  const maxFrames = 20;
 
   const toggleFrame = () => setIsFirstFrame(!isFirstFrame);
 
@@ -19,9 +19,8 @@ function Bowling (props) {
     setOwedOneRound([]);
     setOwedTwoRounds([]);
     setIsFirstFrame(true);
-    setCurrentFrame(1);
+    setCurrentFrame(0);
     setBonus(false);
-    setMaxFrames(20);
     setGameState(true);
   };
 
@@ -54,10 +53,7 @@ function Bowling (props) {
       });
       strike = true;
       newOwedTwoRounds.push(updatedScores.length - 1);
-      if (updatedScores.length === 10) {
-        setBonus(true);
-        setMaxFrames(22);
-      };
+      if (updatedScores.length === 9) setBonus(true);
     } else if (isFirstFrame) {
       updatedScores.push({
         first: pin,
@@ -76,16 +72,20 @@ function Bowling (props) {
     setOwedOneRound(newOwedOneRound);
     setOwedTwoRounds(newOwedTwoRounds);
 
-    if (strike && bonus) {
-      setCurrentFrame(currentFrame + 1);
+    let framePlaceholder = currentFrame;
+    if (bonus) {
+      setCurrentFrame(currentFrame + 0.75);
+      framePlaceholder += 0.75;
     } else if (strike) {
       setCurrentFrame(currentFrame + 2);
+      framePlaceholder += 2;
     } else {
       setCurrentFrame(currentFrame + 1);
+      framePlaceholder += 1;
       toggleFrame();
     }
 
-    if (currentFrame >= maxFrames) {
+    if (framePlaceholder >= maxFrames) {
       console.log('Game is over!');
       setGameState(false);
     }
