@@ -77,7 +77,6 @@ function Bowling (props) {
     setOwedTwoRounds(newOwedTwoRounds);
 
     if (strike && bonus) {
-      console.log('Strike and bonus')
       setCurrentFrame(currentFrame + 1);
     } else if (strike) {
       setCurrentFrame(currentFrame + 2);
@@ -85,8 +84,6 @@ function Bowling (props) {
       setCurrentFrame(currentFrame + 1);
       toggleFrame();
     }
-
-    console.log('Current frame: ', currentFrame);
 
     if (currentFrame >= maxFrames) {
       console.log('Game is over!');
