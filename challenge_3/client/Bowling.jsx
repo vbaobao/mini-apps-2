@@ -20,16 +20,18 @@ function Bowling (props) {
 
   const selectPin = (pin) => {
     const updatedScores = [...scores];
+    const lastRound = updatedScores.length - 1;
+    let prevRound = isFirstFrame && updatedScores.length > 0 ? updatedScores.length - 1 : null;
 
     if (isFirstFrame) {
       updatedScores.push({
         first: Number(pin),
-        total: Number(pin),
+        total: prevRound !== null ? updatedScores[prevRound].total + Number(pin) : Number(pin),
       });
     } else {
       const lastRound = updatedScores.length - 1;
       updatedScores[lastRound].second = Number(pin);
-      updatedScores[lastRound].total = updatedScores[lastRound].first + Number(pin);
+      updatedScores[lastRound].total = updatedScores[lastRound].total + Number(pin);
     }
 
     setScores(updatedScores);
