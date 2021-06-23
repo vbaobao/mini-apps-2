@@ -3,8 +3,10 @@ import { connect } from 'react-redux';
 import { mapStateToProps, mapDispatchToProps } from './mapToProps';
 
 function App(props) {
-  const reset = (e) => { props.resetGame(); };
-  const sweep = (e) => { props.sweep(); };
+  const boardSize = 10;
+  const numberOfMines = 10;
+  const reset = () => { props.resetGame(boardSize, numberOfMines); };
+  const sweep = (e) => { props.sweep(Number(e.target.value), props.game.board, props.game.revealed, boardSize); };
 
   return (
     <div className="App">
@@ -12,7 +14,7 @@ function App(props) {
         { JSON.stringify(props) }
       </pre>
       <button onClick={reset}>Test reset</button>
-      <button onClick={sweep}>Test sweep</button>
+      <button onClick={sweep} value="3">Test sweep</button>
     </div>
   );
 }
