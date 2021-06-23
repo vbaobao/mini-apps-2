@@ -1,7 +1,12 @@
 const resetGame = () => dispatch => {
   dispatch({
     type: 'RESET_GAME',
-    payload: []
+    payload: {
+      board: [],
+      revealed: [],
+      hidden: [],
+      status: true
+    }
   })
 };
 
