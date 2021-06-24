@@ -1,7 +1,6 @@
 import React from 'react';
 
 function Board (props) {
-  console.log(props);
   const clickHandler = (e) => {
     props.sweep(e.target.getAttribute('value'));
   };
