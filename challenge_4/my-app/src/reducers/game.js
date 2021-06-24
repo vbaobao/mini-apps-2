@@ -14,7 +14,7 @@ const game = (state = initialState, action) => {
     case 'SWEEP':
       return {
         ...state,
-        revealed: action.payload
+        ...action.payload
       };
     default:
       return state;
