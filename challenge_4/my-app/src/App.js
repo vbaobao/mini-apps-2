@@ -11,11 +11,7 @@ function App(props) {
 
   return (
     <div className="App">
-      <pre>
-        { JSON.stringify(props) }
-      </pre>
-      <button onClick={reset}>Test reset</button>
-      <button onClick={sweep} value="3">Test sweep</button>
+      <h1>{props.game.status ? 'Minesweeper' : 'Game End!'}</h1>
       <Board
         board={props.game.board}
         revealed={props.game.revealed}
@@ -23,6 +19,7 @@ function App(props) {
         boardSize={boardSize}
         sweep={sweep}
       />
+      <button onClick={reset}>Restart Game</button>
     </div>
   );
 }
