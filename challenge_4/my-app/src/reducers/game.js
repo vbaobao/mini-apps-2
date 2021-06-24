@@ -1,6 +1,8 @@
+import { createNewBoard } from '../actions/minesweeper';
+
 const initialState = {
-  board: [],
-  revealed: [],
+  board: createNewBoard(10, 10),
+  revealed: new Array(10 * 10).fill(0),
   status: true
 };
 
