@@ -36,3 +36,19 @@
     transform: rotate(360deg);
   }
 }
+
+.board-container {
+  display: grid;
+  grid-template-columns: repeat(10, 36px);
+  grid-template-rows: repeat(10, 36px);
+}
+
+.cell-container {
+  height: 35px;
+  width: 35px;
+  background-color: gray;
+}
+
+.hidden {
+  background-color: rgb(87, 87, 87);
+}
