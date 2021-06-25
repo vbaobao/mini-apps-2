@@ -47,6 +47,16 @@ const findAreaOfZeros = (targetValue, board, revealed, index, n) => {
   }
 };
 
+const checkWin = (board, revealed) => {
+  let allTilesRevealed = true;
+  board.forEach((tile, index) => {
+    if (!revealed[index] && tile !== -100) {
+      allTilesRevealed = false;
+    }
+  });
+  return allTilesRevealed;
+};
+
 export const createNewBoard = (n = 10, mines = 10) => {
   const board = new Array(n * n).fill('x');
   const random = () => Math.floor(Math.random() * n * n);
@@ -69,12 +79,14 @@ export const selectCell = (index, board, revealed, n) => {
     const newRevealed = new Array(revealed.length).fill(1);
     return { revealed: newRevealed, status: false };
   } else if (board[index] === 0) {
-    const newRevealed = [...revealed];
+    let newRevealed = [...revealed];
     findAreaOfZeros(0, [...board], newRevealed, index, n);
-    return { revealed: newRevealed };
+    if (checkWin(board, newRevealed)) newRevealed = new Array(newRevealed.length).fill(1);
+    return { revealed: newRevealed, status: !checkWin(board, newRevealed)};
   } else {
-    const newRevealed = [...revealed];
+    let newRevealed = [...revealed];
     newRevealed[index] = 1;
-    return { revealed: newRevealed };
+    if (checkWin(board, newRevealed)) newRevealed = new Array(newRevealed.length).fill(1);
+    return { revealed: newRevealed, status: !checkWin(board, newRevealed) };
   }
 };
