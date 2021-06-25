@@ -39,58 +39,196 @@ describe('Test that the proper DOM elements are present.', () => {
       expect(tile.hasClass('hidden')).toEqual(false);
     });
   });
+
+  test('Clicking on the Restart Game button will restart the game', () => {
+    const props = wrapper.props().store.getState().game;
+    const mine = props.board.findIndex((e) => e === -100);
+
+    wrapper.find(`div.cell-container[value=${mine}]`).simulate('click');
+    wrapper.find('div.cell-container').forEach((tile) => {
+      expect(tile.hasClass('hidden')).toEqual(false);
+    });
+
+    wrapper.find('button').simulate('click');
+    wrapper.find('div.cell-container').forEach((tile) => {
+      expect(tile.hasClass('hidden')).toEqual(true);
+    });
+  });
 });
 
 describe('Test the game mechanics', () => {
-  const getN = (index, n) => index - n;
-  const getE = (index, n) => index + 1;
-  const getS = (index, n) => index + n ;
-  const getW = (index, n) => index - 1;
-  const getNE = (index, n) => index - n + 1;
-  const getNW = (index, n) => index - n - 1;
-  const getSE = (index, n) => index + n + 1;
-  const getSW = (index, n) => index + n - 1;
-  
-  const wrapper = mount(<Provider store={configureStore()}><App /></Provider>);
-  const props = wrapper.props().store.getState().game;
+  const getN = (index) => index - 10;
+  const getE = (index) => index + 1;
+  const getS = (index) => index + 10 ;
+  const getW = (index) => index - 1;
+  const getNE = (index) => index - 10 + 1;
+  const getNW = (index) => index - 10 - 1;
+  const getSE = (index) => index + 10 + 1;
+  const getSW = (index) => index + 10 - 1;
 
-  test('Clicking on a 0 at index 0', () => {
-    expect(1).toBe(1);
+  test('Clicking on a 0 at index 0 does not reveal out of bounds', () => {
+    const wrapper = mount(<Provider store={configureStore()}><App /></Provider>);
+    const index = 0;
+    let props = wrapper.props().store.getState().game;
+
+    while (props.board[index] !== 0) {
+      wrapper.find('button').simulate('click');
+      props = wrapper.props().store.getState().game;
+    }
+
+    const checkTiles = [getE(index), getS(index), getSE(index)];
+    wrapper.find(`.cell-container[value=${index}]`).simulate('click');
+    checkTiles.forEach((adjTile) => {
+      expect(wrapper.props().store.getState().game.revealed[adjTile]).toBe(1);
+    });
   });
 
-  test('Clicking on a 0 at index 100', () => {
-    expect(1).toBe(1);
+  test('Clicking on a 0 at index 100 does not reveal out of bounds', () => {
+    const wrapper = mount(<Provider store={configureStore()}><App /></Provider>);
+    const index = 99;
+    let props = wrapper.props().store.getState().game;
+
+    while (props.board[index] !== 0) {
+      wrapper.find('button').simulate('click');
+      props = wrapper.props().store.getState().game;
+    }
+
+    const checkTiles = [getN(index), getW(index), getNW(index)];
+    wrapper.find(`.cell-container[value=${index}]`).simulate('click');
+    checkTiles.forEach((adjTile) => {
+      expect(wrapper.props().store.getState().game.revealed[adjTile]).toBe(1);
+    });
   });
 
-  test('Clicking on a 0 at index at leftmost of board', () => {
-    expect(1).toBe(1);
+  test('Clicking on a 0 at index at leftmost of board does not reveal out of bounds', () => {
+    const wrapper = mount(<Provider store={configureStore()}><App /></Provider>);
+    const index = 10;
+    let props = wrapper.props().store.getState().game;
+
+    while (props.board[index] !== 0) {
+      wrapper.find('button').simulate('click');
+      props = wrapper.props().store.getState().game;
+    }
+
+    const checkTiles = [getN(index), getE(index), getNE(index), getSE(index, getS(index))];
+    wrapper.find(`.cell-container[value=${index}]`).simulate('click');
+    checkTiles.forEach((adjTile) => {
+      expect(wrapper.props().store.getState().game.revealed[adjTile]).toBe(1);
+    });
   });
 
-  test('Clicking on a 0 at index at rightmost of board', () => {
-    expect(1).toBe(1);
+  test('Clicking on a 0 at index at rightmost of board does not reveal out of bounds', () => {
+    const wrapper = mount(<Provider store={configureStore()}><App /></Provider>);
+    const index = 19;
+    let props = wrapper.props().store.getState().game;
+
+    while (props.board[index] !== 0) {
+      wrapper.find('button').simulate('click');
+      props = wrapper.props().store.getState().game;
+    }
+
+    const checkTiles = [getN(index), getW(index), getNW(index), getSW(index, getS(index))];
+    wrapper.find(`.cell-container[value=${index}]`).simulate('click');
+    checkTiles.forEach((adjTile) => {
+      expect(wrapper.props().store.getState().game.revealed[adjTile]).toBe(1);
+    });
   });
 
-  test('Clicking on a !0 at index 0', () => {
-    expect(1).toBe(1);
+  test('Clicking on a !0 at index 0 does not reveal out of bounds', () => {
+    const wrapper = mount(<Provider store={configureStore()}><App /></Provider>);
+    const index = 0;
+    let props = wrapper.props().store.getState().game;
+
+    while (props.board[index] === -100 || props.board[index] === 0) {
+      wrapper.find('button').simulate('click');
+      props = wrapper.props().store.getState().game;
+    }
+
+    const checkTiles = [getE(index), getS(index), getSE(index)];
+    wrapper.find(`.cell-container[value=${index}]`).simulate('click');
+    checkTiles.forEach((adjTile) => {
+      expect(wrapper.props().store.getState().game.revealed[adjTile]).toBe(0);
+    });
   });
 
-  test('Clicking on a !0 at index 100', () => {
-    expect(1).toBe(1);
+  test('Clicking on a !0 at index 100 does not reveal out of bounds', () => {
+    const wrapper = mount(<Provider store={configureStore()}><App /></Provider>);
+    const index = 99;
+    let props = wrapper.props().store.getState().game;
+
+    while (props.board[index] === -100 || props.board[index] === 0) {
+      wrapper.find('button').simulate('click');
+      props = wrapper.props().store.getState().game;
+    }
+
+    const checkTiles = [getN(index), getW(index), getNW(index)];
+    wrapper.find(`.cell-container[value=${index}]`).simulate('click');
+    checkTiles.forEach((adjTile) => {
+      expect(wrapper.props().store.getState().game.revealed[adjTile]).toBe(0);
+    });
   });
 
-  test('Clicking on a !0 at index at leftmost of board', () => {
-    expect(1).toBe(1);
+  test('Clicking on a !0 at index at leftmost of board does not reveal out of bounds', () => {
+    const wrapper = mount(<Provider store={configureStore()}><App /></Provider>);
+    const index = 10;
+    let props = wrapper.props().store.getState().game;
+
+    while (props.board[index] === -100 || props.board[index] === 0) {
+      wrapper.find('button').simulate('click');
+      props = wrapper.props().store.getState().game;
+    }
+
+    const checkTiles = [getN(index), getE(index), getNE(index), getSE(index, getS(index))];
+    wrapper.find(`.cell-container[value=${index}]`).simulate('click');
+    checkTiles.forEach((adjTile) => {
+      expect(wrapper.props().store.getState().game.revealed[adjTile]).toBe(0);
+    });
   });
 
-  test('Clicking on a !0 at index at rightmost of board', () => {
-    expect(1).toBe(1);
+  test('Clicking on a !0 at index at rightmost of board does not reveal out of bounds', () => {
+    const wrapper = mount(<Provider store={configureStore()}><App /></Provider>);
+    const index = 19;
+    let props = wrapper.props().store.getState().game;
+
+    while (props.board[index] === -100 || props.board[index] === 0) {
+      wrapper.find('button').simulate('click');
+      props = wrapper.props().store.getState().game;
+    }
+
+    const checkTiles = [getN(index), getW(index), getNW(index), getSW(index, getS(index))];
+    wrapper.find(`.cell-container[value=${index}]`).simulate('click');
+    checkTiles.forEach((adjTile) => {
+      expect(wrapper.props().store.getState().game.revealed[adjTile]).toBe(0);
+    });
   });
 
-  test('Clicking on a mine reveals all tiles', () => {
-    expect(1).toBe(1);
+  test('Clicking on a mine reveals all tiles and game state is false', () => {
+    const wrapper = mount(<Provider store={configureStore()}><App /></Provider>);
+    let props = wrapper.props().store.getState().game;
+    const mine = props.board.findIndex((e) => e === -100);
+
+    wrapper.find(`div.cell-container[value=${mine}]`).simulate('click');
+    props = wrapper.props().store.getState().game;
+
+    expect(props.status).toEqual(false);
+    props.revealed.forEach((tile) => {
+      expect(tile).toEqual(1);
+    });
   });
 
   test('Game ends when all mines are avoided, reveals board', () => {
-    expect(1).toBe(1);
+    const wrapper = mount(<Provider store={configureStore()}><App /></Provider>);
+    let props = wrapper.props().store.getState().game;
+
+    props.board.forEach((tile, index) => {
+      if (props.board[index] !== -100 && wrapper.props().store.getState().game.revealed[index] !== 1) {
+        wrapper.find(`.cell-container[value=${index}]`).simulate('click');
+      }
+    });
+
+    expect(wrapper.props().store.getState().game.status).toEqual(false);
+    wrapper.props().store.getState().game.revealed.forEach((tile) => {
+      expect(tile).toEqual(1);
+    });
   });
 });
